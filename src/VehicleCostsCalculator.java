@@ -83,7 +83,7 @@ public class VehicleCostsCalculator{
         sb.append("Total rent: ").append(this.formatNum("$", totalRent - earlyReturnRentDiscount)).append("\n");
         sb.append("Total insurance: ").append(this.formatNum("$", totalInsurance)).append("\n");
 
-        total = totalRent+totalInsurance+earlyReturnRentDiscount;
+        total = totalRent+totalInsurance-earlyReturnRentDiscount;
         sb.append("Total: ").append(this.formatNum("$", total)).append("\n");
 
         return  sb.toString();
