@@ -8,7 +8,7 @@ public class Motorcycle extends Vehicle{
 
     public Motorcycle(String brand, String model, double value, int rentDays, int driversAge ) {
         super(brand, model, value, rentDays);
-        this.driversAge = driversAge;
+        setDriversAge(driversAge);
     }
 
     @Override
@@ -31,10 +31,13 @@ public class Motorcycle extends Vehicle{
     }
 
     public void setDriversAge(int driversAge) {
+        if(driversAge<16){
+            throw new IllegalArgumentException("Driver's age must be a valid value, above 16!");
+        }
         this.driversAge = driversAge;
     }
 
     public String toString() {
-        return String.format("A motorcycle valued at $%.2f and the driver is %d years old:", getValue(), getDriversAge());
+        return String.format("A motorcycle valued at $%.2f and the driver is %d years old:\n", getValue(), getDriversAge());
     }
 }
