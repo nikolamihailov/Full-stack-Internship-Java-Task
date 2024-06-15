@@ -25,7 +25,7 @@ public abstract class Vehicle{
 
     public void setBrand(String brand) {
         if(brand.length()<3){
-            throw new Error("Invalid brand name! Must be at least 3 characters!");
+            throw new IllegalArgumentException("Invalid brand name! Must be at least 3 characters!");
         }
         this.brand = brand;
     }
@@ -47,7 +47,7 @@ public abstract class Vehicle{
 
     public void setValue(double value) {
         if(value<=0){
-            throw new Error("Invalid value! Value must be a positive number!");
+            throw new IllegalArgumentException("Invalid value! Value must be a positive number!");
         }
         this.value = value;
     }
@@ -58,7 +58,7 @@ public abstract class Vehicle{
 
     public void setRentDays(int rentDays) {
         if(rentDays<=0){
-            throw new Error("Rent days must be 1 and above!");
+            throw new IllegalArgumentException("Rent days must be 1 and above!");
         }
         this.rentDays = rentDays;
     }

@@ -33,7 +33,7 @@ public class Car extends Vehicle{
 
     public void setSafetyRating(int safetyRating) {
         if(safetyRating<1 || safetyRating>5){
-            throw new Error("Invalid Safety rating! Rating must be 1-5!");
+            throw new IllegalArgumentException("Invalid Safety rating! Rating must be 1-5!");
         }
         this.safetyRating = safetyRating;
     }

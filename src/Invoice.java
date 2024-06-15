@@ -106,7 +106,7 @@ public class Invoice{
 
     public void setReturnDate(LocalDate returnDate) {
         if (returnDate.isBefore(this.startDate)) {
-            throw new Error("Return date must be after start date");
+            throw new IllegalArgumentException("Return date must be after start date");
         }
         this.returnDate = returnDate;
     }
