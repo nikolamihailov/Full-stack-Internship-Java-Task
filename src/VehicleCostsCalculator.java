@@ -13,12 +13,11 @@ public class VehicleCostsCalculator{
 
         if(actualDays<=7){
             dailyRentCost = vehicle.getDailyRentalCost();
-            sb.append("Rental cost per day: ").append(this.formatNum("$",dailyRentCost)).append("\n");
         }
         if(actualDays>7){
             dailyRentCost = vehicle.getDailyRentalCostForLongPeriod();
-            sb.append("Rental cost per day: ").append(this.formatNum("$", dailyRentCost)).append("\n");
         }
+        sb.append("Rental cost per day: ").append(this.formatNum("$",dailyRentCost)).append("\n");
 
         totalRent = dailyRentCost*rentDays;
         dailyInsuranceCost = vehicle.getDailyInsuranceCost();
