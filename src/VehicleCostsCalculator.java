@@ -1,13 +1,16 @@
+// utility class for calculations of vehicle costs
+
 public class VehicleCostsCalculator{
-    public double dailyInsuranceCostWithAdditionOrDiscount = 0;
-    double dailyInsuranceCost;
-    double dailyInsuranceCostDiff;
-    double totalInsurance;
-    double dailyRentCost = 0;
-    double totalRent;
-    double earlyReturnRentDiscount = 0;
-    double earlyReturnInsuranceDiscount;
-    double total;
+    private double dailyInsuranceCostWithAdditionOrDiscount = 0;
+    private double dailyInsuranceCost;
+    private double totalInsurance;
+    private double dailyRentCost = 0;
+    private double earlyReturnRentDiscount = 0;
+
+    private static final double CAR_HIGH_SAFETY_DISCOUNT_PERCENT = 90;
+    // !!! used with +1 because percent is added
+    private static final double MOTORCYCLE_YOUNG_DRIVER_ADDITIONAL_PERCENT = 20;
+    private static final double CARGOVAN_EXPERIENCED_DRIVER_DISCOUNT_PERCENT = 85;
 
     public String getCostsInfo(Vehicle vehicle, int actualDays, int rentDays ){
         StringBuilder sb = new StringBuilder();
@@ -20,7 +23,7 @@ public class VehicleCostsCalculator{
         }
         sb.append("Rental cost per day: ").append(this.formatNum("$",dailyRentCost)).append("\n");
 
-        totalRent = dailyRentCost*rentDays;
+        double totalRent = dailyRentCost * rentDays;
         dailyInsuranceCost = vehicle.getDailyInsuranceCost();
         totalInsurance = dailyInsuranceCost*actualDays;
 
@@ -30,7 +33,7 @@ public class VehicleCostsCalculator{
 
         if(vehicle instanceof Car){
             if(((Car) vehicle).getSafetyRating()==4 || ((Car) vehicle).getSafetyRating() ==5){
-               sb.append( calcInsurance(0.9, actualDays));
+               sb.append(calcInsurance(CAR_HIGH_SAFETY_DISCOUNT_PERCENT/100, actualDays));
             }else{
                 sb.append("Insurance per day: ").append(this.formatNum("$", dailyInsuranceCost)).append("\n\n");
             }
@@ -38,7 +41,7 @@ public class VehicleCostsCalculator{
 
         if(vehicle instanceof Motorcycle){
             if(((Motorcycle) vehicle).getDriversAge()<25){
-                sb.append(calcInsurance(1.2, actualDays));
+                sb.append(calcInsurance(MOTORCYCLE_YOUNG_DRIVER_ADDITIONAL_PERCENT/100 + 1, actualDays));
             }else{
                 sb.append("Insurance per day: ").append(this.formatNum("$", dailyInsuranceCost)).append("\n\n");
             }
@@ -46,7 +49,7 @@ public class VehicleCostsCalculator{
 
         if(vehicle instanceof CargoVan){
             if(((CargoVan) vehicle).getDriversExperienceInYears()>5){
-                sb.append(calcInsurance(0.85, actualDays));
+                sb.append(calcInsurance(CARGOVAN_EXPERIENCED_DRIVER_DISCOUNT_PERCENT/100, actualDays));
             }else{
                 sb.append("Insurance per day: ").append(this.formatNum("$", dailyInsuranceCost)).append("\n\n");
             }
@@ -56,8 +59,12 @@ public class VehicleCostsCalculator{
             double daysDiff = rentDays-actualDays;
 
             earlyReturnRentDiscount = daysDiff*(dailyRentCost/2);
-            earlyReturnInsuranceDiscount = daysDiff*dailyInsuranceCostWithAdditionOrDiscount;
-
+            double earlyReturnInsuranceDiscount;
+            if(dailyInsuranceCostWithAdditionOrDiscount==0){
+                earlyReturnInsuranceDiscount = daysDiff*dailyInsuranceCost;
+            }else{
+                earlyReturnInsuranceDiscount = daysDiff * dailyInsuranceCostWithAdditionOrDiscount;
+            }
             sb.append("Early return discount for rent: ").append(this.formatNum("$", earlyReturnRentDiscount)).append("\n");
             sb.append("Early return discount for insurance: ").append(this.formatNum("$", earlyReturnInsuranceDiscount)).append("\n\n");
         }
@@ -65,7 +72,7 @@ public class VehicleCostsCalculator{
         sb.append("Total rent: ").append(this.formatNum("$", totalRent - earlyReturnRentDiscount)).append("\n");
         sb.append("Total insurance: ").append(this.formatNum("$", totalInsurance)).append("\n");
 
-        total = totalRent+totalInsurance-earlyReturnRentDiscount;
+        double total = totalRent + totalInsurance - earlyReturnRentDiscount;
         sb.append("Total: ").append(this.formatNum("$", total)).append("\n");
 
         return  sb.toString();
@@ -79,7 +86,7 @@ public class VehicleCostsCalculator{
         StringBuilder sb = new StringBuilder();
         sb.append("Initial insurance per day: ").append(this.formatNum("$", dailyInsuranceCost)).append("\n");
         dailyInsuranceCostWithAdditionOrDiscount = dailyInsuranceCost*insuranceReduceIncreasePercent;
-        dailyInsuranceCostDiff = Math.abs(dailyInsuranceCost - dailyInsuranceCostWithAdditionOrDiscount);
+        double dailyInsuranceCostDiff = Math.abs(dailyInsuranceCost - dailyInsuranceCostWithAdditionOrDiscount);
         if(insuranceReduceIncreasePercent>1){
             sb.append("Insurance addition per day: ").append(this.formatNum("$", dailyInsuranceCostDiff)).append("\n");
         }else{
