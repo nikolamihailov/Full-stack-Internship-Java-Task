@@ -8,7 +8,7 @@ public class CargoVan extends Vehicle {
 
     public CargoVan(String brand, String model, double value, int rentDays, int driversExperienceInYears) {
         super(brand, model, value, rentDays);
-        this.driversExperienceInYears = driversExperienceInYears;
+        setDriversExperienceInYears(driversExperienceInYears);
     }
 
     @Override
@@ -31,10 +31,13 @@ public class CargoVan extends Vehicle {
     }
 
     public void setDriversExperienceInYears(int driversExperienceInYears) {
+        if(driversExperienceInYears<0){
+            throw new IllegalArgumentException("Driver's experience cannot be negative!");
+        }
         this.driversExperienceInYears = driversExperienceInYears;
     }
 
     public String toString() {
-        return String.format("A cargo van valued at $%.2f and the driver has %d years of experience", getValue(), getDriversExperienceInYears());
+        return String.format("A cargo van valued at $%.2f and the driver has %d years of experience:\n", getValue(), getDriversExperienceInYears());
     }
 }
