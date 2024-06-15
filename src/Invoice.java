@@ -10,11 +10,11 @@ public class Invoice{
     private LocalDate returnDate;
 
     public Invoice(Vehicle vehicle, String customerFirstName, String customerLastName, LocalDate startDate, LocalDate returnDate) {
-        this.vehicle = vehicle;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
-        this.startDate = startDate;
-        this.returnDate = returnDate;
+        setVehicle(vehicle);
+        setCustomerFirstName(customerFirstName);
+        setCustomerLastName(customerLastName);
+        setStartDate(startDate);
+        setReturnDate(returnDate);
     }
 
     public void report() {
@@ -50,7 +50,7 @@ public class Invoice{
         sb.append("Actual rental days: ").append(actualRentDays).append("\n\n");
 
         sb.append(vehicleRentInsuranceCosts);
-        sb.append(separator).append("\n");
+        sb.append(separator).append("\n\n");
 
         System.out.print(sb);
     }
@@ -76,22 +76,38 @@ public class Invoice{
     }
 
     public void setVehicle(Vehicle vehicle) {
+        if(vehicle == null){
+            throw new IllegalArgumentException("Invalid vehicle");
+        }
         this.vehicle = vehicle;
     }
 
     public void setCustomerFirstName(String customerFirstName) {
+        if (customerFirstName.length()<2){
+            throw new IllegalArgumentException("Invalid first name! Must be at least 3 characters!");
+        }
         this.customerFirstName = customerFirstName;
     }
 
     public void setCustomerLastName(String customerLastName) {
+        if (customerLastName.length()<2){
+            throw new IllegalArgumentException("Invalid last name! Must be at least 3 characters!");
+        }
         this.customerLastName = customerLastName;
     }
 
     public void setStartDate(LocalDate startDate) {
+        LocalDate ld = LocalDate.of(LocalDate.now().getYear()-1,12,31);
+        if(startDate.isBefore(ld)){
+            throw new IllegalArgumentException("Invalid start date! Must start at least this year - 2024!");
+        }
         this.startDate = startDate;
     }
 
     public void setReturnDate(LocalDate returnDate) {
+        if (returnDate.isBefore(this.startDate)) {
+            throw new Error("Return date must be after start date");
+        }
         this.returnDate = returnDate;
     }
 }
