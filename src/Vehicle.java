@@ -1,6 +1,5 @@
 // base abstract class to be inherited later by Car, Motorcycle, Cargo van
 
-
 public abstract class Vehicle{
     protected String brand;
     protected String model;
@@ -8,10 +7,10 @@ public abstract class Vehicle{
     protected int rentDays;
 
     public Vehicle(String brand, String model, double value, int rentDays) {
-        this.brand = brand;
-        this.model = model;
-        this.value = value;
-        this.rentDays = rentDays;
+        setBrand(brand);
+        setModel(model);
+        setValue(value);
+        setRentDays(rentDays);
     }
 
     public abstract double getDailyRentalCost();
@@ -25,6 +24,9 @@ public abstract class Vehicle{
     }
 
     public void setBrand(String brand) {
+        if(brand.length()<3){
+            throw new Error("Invalid brand name! Must be at least 3 characters!");
+        }
         this.brand = brand;
     }
 
@@ -33,6 +35,9 @@ public abstract class Vehicle{
     }
 
     public void setModel(String model) {
+        if(model.length()<2){
+            throw new IllegalArgumentException("Invalid model name! Must be at least 2 characters!");
+        }
         this.model = model;
     }
 
@@ -41,6 +46,9 @@ public abstract class Vehicle{
     }
 
     public void setValue(double value) {
+        if(value<=0){
+            throw new Error("Invalid value! Value must be a positive number!");
+        }
         this.value = value;
     }
 
@@ -49,6 +57,9 @@ public abstract class Vehicle{
     }
 
     public void setRentDays(int rentDays) {
+        if(rentDays<=0){
+            throw new Error("Rent days must be 1 and above!");
+        }
         this.rentDays = rentDays;
     }
 }
