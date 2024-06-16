@@ -2,7 +2,8 @@
 
 ## Build console application for Vehicle Rental System
 
-- implemented Base class Vehicle including most of the properties needed
-- implemented three classes inheriting Vehicle for Car, Motorcycle and CargoVan
-- class Invoice responsible for generating invoices
-- utility class VehicleCostCalculator that calculates the costs
+- Implemented Base class Vehicle including most of the properties needed
+- Implemented three classes inheriting Vehicle for Car, Motorcycle and CargoVan
+- Class Invoice responsible for generating invoices
+- Utility class VehicleCostCalculator that calculates the costs
+- Error handling for all classes to ensure valid data
